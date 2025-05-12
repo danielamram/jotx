@@ -1,4 +1,3 @@
-import { setRuntime } from "../../build";
-import { jestRuntime } from "../../build/runtimes/jest";
+import { jestRuntime, setRuntime } from "../../build";
 
 setRuntime(jestRuntime);

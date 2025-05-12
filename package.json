@@ -16,10 +16,6 @@
     ".": {
       "types": "./build/index.d.ts",
       "default": "./build/index.js"
-    },
-    "./runtimes": {
-      "types": "./build/runtimes/index.d.ts",
-      "default": "./build/runtimes/index.js"
     }
   },
   "engines": {
