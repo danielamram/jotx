@@ -8,8 +8,8 @@ import {
   it,
   jest,
 } from "@jest/globals";
-import testContext from "../context";
-import type { TestRuntime } from "../runtime";
+import testContext from "../../context";
+import type { TestRuntime } from "../../runtime";
 
 /**
  * Enhanced Jest runtime with better error messages and debugging capabilities

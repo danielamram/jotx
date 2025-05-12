@@ -15,29 +15,26 @@
 JotX is a developer-friendly testing framework that lets you write tests as React components. It combines the declarative nature of React with the expressiveness of Behavior-Driven Development (BDD) to create tests that are readable, maintainable, and powerful.
 
 ```tsx
-<TestSuite name="User Authentication">
-  <Given
-    name="validCredentials"
-    value={{ email: "user@example.com", password: "password123" }}
-  />
+// math.test.tsx
+import { AssertEqual, Call, TestCase, TestSuite, render } from "jotx";
 
-  <TestCase name="logs in successfully with valid credentials">
-    <MockFetch url="/api/login" response={{ success: true, token: "abc123" }} />
-    <WhenAsync
-      fn={(ctx) => loginUser(ctx.get("validCredentials"))}
-      as="result"
-    />
-    <Then expect="result.success" toBe={true} />
-    <Then expect="result.token" toEqual="abc123" />
-  </TestCase>
-</TestSuite>
+const add = (a: number, b: number) => a + b;
+
+render(
+  <TestSuite name="Math">
+    <TestCase name="adds numbers">
+      <Call fn={() => add(2, 3)} as="result" />
+      <AssertEqual actual="result" expected={5} />
+    </TestCase>
+  </TestSuite>
+);
 ```
 
 ## Features
 
 - 🧩 **Declarative Testing**: Write tests as React components
 - 🔍 **BDD-Style Syntax**: Given-When-Then pattern for clear test structure
-- 🔄 **Async Testing**: First-class support for asynchronous operations
+- 🔄 **Async Testing**: Support for asynchronous operations
 - 🎭 **Powerful Mocking**: Mock functions, APIs, and network requests
 - 👁️ **Spying**: Track function calls and verify interactions
 - 🐞 **Debugging**: Enhanced debugging with context inspection
@@ -58,7 +55,7 @@ pnpm add --save-dev jotx
 
 ### 1. Configure your test runner
 
-Create a setup file for your test runner (e.g., `setupTests.ts`):
+Create a setup file for your test runner (e.g., `jest.setup.ts`):
 
 ```typescript
 // For Jest
@@ -68,11 +65,20 @@ import { setRuntime } from "jotx";
 setRuntime(jestRuntime);
 ```
 
+> **Note:** Make sure your test environment's `tsconfig.json` includes:
+>
+> ```json
+> {
+>   "compilerOptions": {
+>     "jsx": "react-jsx"
+>   }
+> }
+> ```
+
 ### 2. Write your first test
 
-```typescriptreact
-import { TestSuite, TestCase, Given, When, Then } from "jotx";
-import { render } from "jotx/renderTestTree";
+```tsx
+import { TestSuite, TestCase, Given, When, Then, render } from "jotx";
 
 // Function to test
 const add = (a: number, b: number) => a + b;
@@ -103,17 +109,11 @@ pnpm test
 
 ### Testing Asynchronous Code
 
-```typescriptreact
+```tsx
 <TestCase name="fetches user data">
-  <MockFetch
-    url="/api/users/1"
-    response={{ id: 1, name: "John Doe" }}
-  />
+  <MockFetch url="/api/users/1" response={{ id: 1, name: "John Doe" }} />
 
-  <WhenAsync
-    fn={() => fetchUserData(1)}
-    as="userData"
-  />
+  <WhenAsync fn={() => fetchUserData(1)} as="userData" />
 
   <Then expect="userData.name" toEqual="John Doe" />
 </TestCase>
@@ -121,12 +121,15 @@ pnpm test
 
 ### Spying and Verification
 
-```typescriptreact
+```tsx
 <TestCase name="calls the logger when error occurs">
   <Given name="logger" value={{ error: jest.fn() }} />
   <Spy target="logger" method="error" as="loggerSpy" />
 
-  <When fn={(ctx) => processWithErrorHandling("bad data", ctx.get("logger"))} as="result" />
+  <When
+    fn={(ctx) => processWithErrorHandling("bad data", ctx.get("logger"))}
+    as="result"
+  />
 
   <Verify spy="loggerSpy" called={true} />
   <Verify spy="loggerSpy" calledWith={["Error processing data: bad data"]} />
@@ -135,7 +138,7 @@ pnpm test
 
 ### Mocking
 
-```typescriptreact
+```tsx
 <TestCase name="uses cached data when available">
   <Given name="cache" value={{ get: jest.fn(), set: jest.fn() }} />
   <Given name="cacheKey" value="user-123" />
@@ -149,7 +152,10 @@ pnpm test
     }
   />
 
-  <When fn={(ctx) => getUserWithCache(ctx.get("cacheKey"), ctx.get("cache"))} as="result" />
+  <When
+    fn={(ctx) => getUserWithCache(ctx.get("cacheKey"), ctx.get("cache"))}
+    as="result"
+  />
 
   <Then expect="result.name" toEqual="Cached User" />
 </TestCase>
@@ -163,7 +169,7 @@ pnpm test
 
 Groups related tests together.
 
-```typescriptreact
+```tsx
 <TestSuite
   name="User Authentication"
   description="Tests for user login and registration"
@@ -177,7 +183,7 @@ Groups related tests together.
 
 Defines an individual test.
 
-```typescriptreact
+```tsx
 <TestCase
   name="logs in successfully"
   description="User should be able to log in with valid credentials"
@@ -193,7 +199,7 @@ Defines an individual test.
 
 Sets up test preconditions.
 
-```typescriptreact
+```tsx
 <Given name="user" value={{ id: 1, name: "John" }} />
 ```
 
@@ -201,7 +207,7 @@ Sets up test preconditions.
 
 Executes the action being tested.
 
-```typescriptreact
+```tsx
 <When fn={(ctx) => login(ctx.get("credentials"))} as="result" />
 ```
 
@@ -209,7 +215,7 @@ Executes the action being tested.
 
 Executes asynchronous actions.
 
-```typescriptreact
+```tsx
 <WhenAsync
   fn={(ctx) => fetchUserData(ctx.get("userId"))}
   as="userData"
@@ -221,7 +227,7 @@ Executes asynchronous actions.
 
 Asserts the expected outcome.
 
-```typescriptreact
+```tsx
 <Then expect="result.success" toBe={true} />
 <Then expect="user.name" toEqual="John Doe" />
 <Then expect="errors" toContain="Invalid email" />
@@ -236,7 +242,7 @@ Asserts the expected outcome.
 
 Creates a mock function.
 
-```typescriptreact
+```tsx
 <Mock
   target="userService"
   method="login"
@@ -260,7 +266,7 @@ Creates a mock function.
 
 Mocks fetch API responses.
 
-```typescriptreact
+```tsx
 <MockFetch
   url="/api/users"
   method="GET" // Optional, defaults to GET
@@ -275,7 +281,7 @@ Mocks fetch API responses.
 
 Creates a spy on an object method.
 
-```typescriptreact
+```tsx
 <Spy target="userService" method="login" as="loginSpy" />
 ```
 
@@ -283,7 +289,7 @@ Creates a spy on an object method.
 
 Verifies spy/mock interactions.
 
-```typescriptreact
+```tsx
 <Verify spy="loginSpy" called={true} />
 <Verify spy="fetchSpy" calledTimes={2} />
 <Verify spy="createUserSpy" calledWith={["John", 30]} />
@@ -296,7 +302,7 @@ Verifies spy/mock interactions.
 
 Pauses test execution.
 
-```typescriptreact
+```tsx
 <Wait ms={500} description="Wait for animation to complete" />
 ```
 
@@ -304,7 +310,7 @@ Pauses test execution.
 
 Logs debug information.
 
-```typescriptreact
+```tsx
 <Debug value="userData" message="User data after login" />
 <Debug logContext={true} />
 ```
@@ -338,9 +344,9 @@ For the best development experience, ensure your `tsconfig.json` includes:
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+2. Create your feature branch (`git checkout -b feat/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat(runtime): some amazing feature'`)
+4. Push to the branch (`git push origin feat/amazing-feature`)
 5. Open a Pull Request
 
 ## License
@@ -351,4 +357,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Inspired by Ink
 - Built with TypeScript and React
-- Special thanks to all contributors
