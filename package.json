@@ -1,0 +1,65 @@
+{
+  "name": "jotx",
+  "version": "0.0.1",
+  "description": "React for Testing",
+  "license": "MIT",
+  "repository": "danielamr/jotx",
+  "author": {
+    "name": "Daniel Amram",
+    "email": "amdanielram@gmail.com",
+    "url": "https://github.com/danielamram"
+  },
+  "type": "module",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "prepare": "npm run build",
+    "test": "tsc --noEmit && xo && FORCE_COLOR=true ava",
+    "example": "NODE_NO_WARNINGS=1 node --loader ts-node/esm",
+    "benchmark": "NODE_NO_WARNINGS=1 node --loader ts-node/esm"
+  },
+  "files": [
+    "build"
+  ],
+  "keywords": [
+    "react",
+    "test"
+  ],
+  "dependencies": {
+    "axios": "^1.9.0",
+    "react-reconciler": "^0.29.0"
+  },
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.27.1",
+    "@jest/globals": "^29.7.0",
+    "@sindresorhus/tsconfig": "^6.0.0",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^18.3.12",
+    "@types/react-reconciler": "^0.28.2",
+    "@vdemedes/prettier-config": "^2.0.1",
+    "eslint-config-xo-react": "0.27.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "prettier": "^3.3.3",
+    "react": "^18.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3",
+    "xo": "^0.59.3"
+  },
+  "peerDependencies": {
+    "@types/react": ">=18.0.0",
+    "react": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  }
+}
