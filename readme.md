@@ -1,7 +1,7 @@
 # JotX
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/danielamram/jotx/main/media/jotx-logo.png" alt="JotX Logo" width="200" />
+  <img src="https://github.com/danielamram/jotx/blob/f19285333ddee94fecf3b5344c98db0beeb661b4/media/jotx-logo.png" alt="JotX Logo" width="200" />
   <h3>Declarative, React-based Testing Framework</h3>
   <p>Write tests as React components with a BDD-style syntax</p>
   
