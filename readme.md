@@ -63,7 +63,7 @@ Create a setup file for your test runner (e.g., `setupTests.ts`):
 ```typescript
 // For Jest
 import { jestRuntime } from "jotx/runtimes/jest";
-import { setRuntime } from "jotx/testRuntime";
+import { setRuntime } from "jotx";
 
 setRuntime(jestRuntime);
 ```
