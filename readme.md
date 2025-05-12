@@ -14,17 +14,24 @@
 
 JotX is a developer-friendly testing framework that lets you write tests as React components. It combines the declarative nature of React with the expressiveness of Behavior-Driven Development (BDD) to create tests that are readable, maintainable, and powerful.
 
-````tsx
+```tsx
 <TestSuite name="User Authentication">
-  <Given name="validCredentials" value={{ email: "user@example.com", password: "password123" }} />
+  <Given
+    name="validCredentials"
+    value={{ email: "user@example.com", password: "password123" }}
+  />
 
   <TestCase name="logs in successfully with valid credentials">
     <MockFetch url="/api/login" response={{ success: true, token: "abc123" }} />
-    <WhenAsync fn={(ctx) => loginUser(ctx.get("validCredentials"))} as="result" />
+    <WhenAsync
+      fn={(ctx) => loginUser(ctx.get("validCredentials"))}
+      as="result"
+    />
     <Then expect="result.success" toBe={true} />
     <Then expect="result.token" toEqual="abc123" />
   </TestCase>
 </TestSuite>
+```
 
 ## Features
 
@@ -37,7 +44,6 @@ JotX is a developer-friendly testing framework that lets you write tests as Reac
 - 🏷️ **Tagging**: Organize tests with tags and descriptions
 - 🔌 **Extensible**: Works with Jest, Vitest, and other test runners
 
-
 ## Installation
 
 ```shellscript
@@ -46,7 +52,7 @@ npm install --save-dev jotx
 yarn add --dev jotx
 # or
 pnpm add --save-dev jotx
-````
+```
 
 ## Basic Usage
 
