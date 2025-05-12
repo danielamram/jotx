@@ -65,15 +65,18 @@ import { setRuntime } from "jotx";
 setRuntime(jestRuntime);
 ```
 
-> **Note:** Make sure your test environment's `tsconfig.json` includes:
->
-> ```json
-> {
->   "compilerOptions": {
->     "jsx": "react-jsx"
->   }
-> }
-> ```
+### TypeScript Configuration
+
+`tsconfig.json` should include:
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "esModuleInterop": true
+  }
+}
+```
 
 ### 2. Write your first test
 
@@ -325,19 +328,6 @@ JotX supports multiple test runners through runtime adapters:
 - **Vitest**: `jotx/runtimes/vitest`
 
 Create your own adapter by implementing the `TestRuntime` interface.
-
-### TypeScript Configuration
-
-For the best development experience, ensure your `tsconfig.json` includes:
-
-```json
-{
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "esModuleInterop": true
-  }
-}
-```
 
 ## Contributing
 
