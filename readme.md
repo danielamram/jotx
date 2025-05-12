@@ -22,9 +22,9 @@ const add = (a: number, b: number) => a + b;
 
 render(
   <TestSuite name="Math">
-    <TestCase name="adds numbers">
-      <Call fn={() => add(2, 3)} as="result" />
-      <AssertEqual actual="result" expected={5} />
+    <TestCase name="adds numbers test case 2">
+      <When fn={() => add(2, 3)} as="result" />
+      <Then expect="result" toBe={5} />
     </TestCase>
   </TestSuite>
 );
@@ -43,7 +43,7 @@ render(
 
 ## Installation
 
-```shellscript
+```sh
 npm install --save-dev jotx
 # or
 yarn add --dev jotx
